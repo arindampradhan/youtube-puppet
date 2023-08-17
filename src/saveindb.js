@@ -22,9 +22,9 @@ export const getYoutubeUrls = async (videoId) => {
   return db.chain.get('youtubeUrls')
 }
 
-export const checkifTranscriptExists = (videoId) => {
+export const checkifTranscriptDoesNotExists = (videoId) => {
   db.read()
-  return db.chain.get('transcripts').find({videoId}).value();
+  return !db.chain.get('transcripts').find({videoId}).value();
 }
 
 export const addYoutubeUrl = async (url, videoId) => {
@@ -57,3 +57,19 @@ export const addTranscript = async (videoId, text) => {
     console.error('Error saving URL:', error);
   }
 };
+
+export const addError = async (videoId, error) => {
+  const errorDocument = {
+    _id: new Date().toISOString(), // Use a suitable ID format
+    error,
+    videoId,
+  };
+
+  try {
+    await db.data.errors.push(errorDocument)
+    await db.write();
+    console.log('Error saved');
+  } catch (error) {
+    console.error('Error saving URL:', error);
+  }
+}
