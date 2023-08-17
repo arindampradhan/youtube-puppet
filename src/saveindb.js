@@ -13,7 +13,7 @@ const addChain = (db) => {
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const file = join(__dirname,'..', 'db.json')
 const adapter = new JSONFileSync(file)
-const defaultData = { transcripts: [], youtubeUrls: [] }
+const defaultData = { transcripts: [], youtubeUrls: [], errors: [] }
 const db = new LowSync(adapter, defaultData)
 addChain(db);
 
@@ -23,8 +23,10 @@ export const getYoutubeUrls = async (videoId) => {
 }
 
 export const checkifTranscriptDoesNotExists = (videoId) => {
-  db.read()
-  return !db.chain.get('transcripts').find({videoId}).value();
+  db.read();
+  const existsInError = db.chain.get('errors').find({ videoId }).value();
+  const existsInTranscript = db.chain.get('transcripts').find({ videoId }).value();
+  return !existsInError && !existsInTranscript
 }
 
 export const addYoutubeUrl = async (url, videoId) => {
@@ -64,7 +66,6 @@ export const addError = async (videoId, error) => {
     error,
     videoId,
   };
-
   try {
     await db.data.errors.push(errorDocument)
     await db.write();
