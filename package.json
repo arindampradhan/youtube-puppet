@@ -15,6 +15,7 @@
   "scripts": {
     "save-links": "node .\\src\\getLinks.js",
     "transcript": "node .\\src\\youtubetranscript.js",
+    "generate-transcripts": "node .\\src\\processDB.js",
     "save": "node .\\src\\saveindb.js"
   }
 }

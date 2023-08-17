@@ -4,6 +4,8 @@ import { fileURLToPath } from 'node:url'
 import {  LowSync } from 'lowdb'
 import {  JSONFileSync } from 'lowdb/node'
 import lodash from 'lodash'
+import fs from 'fs-extra'
+import path from 'path'
 
 const addChain = (db) => {
   db.chain = lodash.chain(db).get('data')
@@ -74,3 +76,22 @@ export const addError = async (videoId, error) => {
     console.error('Error saving URL:', error);
   }
 }
+
+export const saveTranscriptToFile = async () => {
+  // TODO: Save transcript to file
+  db.read()
+  const allTranscripts = await db.chain.get('transcripts').value();
+  console.log(allTranscripts)
+
+  allTranscripts.forEach(({videoId, text}) => {
+    console.log('Saving transcript to file');
+    const filePath = path.join(__dirname, '..', 'transcripts', `${lodash.uniqueId('transcript')}.txt`);
+    fs.writeFile(filePath, text, (err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      console.log('Transcript saved to file');
+    })
+  })
+};
