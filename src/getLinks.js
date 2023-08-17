@@ -3,8 +3,6 @@ import { addYoutubeUrl } from './saveindb.js'; // Update the file extension to .
 import { PLAYLIST_URLS } from './constants.js'; // Update the file extension to .mjs
 import { hasVideoId } from './helper.js'
 
-// Your code logic here...
-
 (async () => {
   // Launch a new browser instance
   const browser = await puppeteer.launch({

@@ -17,10 +17,14 @@ const defaultData = { transcripts: [], youtubeUrls: [] }
 const db = new LowSync(adapter, defaultData)
 addChain(db);
 
-export const getYoutubeUrl = async (videoId) => {
+export const getYoutubeUrls = async (videoId) => {
   db.read()
-  const post = db.chain.get('youtubeUrls').find({ videoId }).value() 
-  console.log(videoId, post)
+  return db.chain.get('youtubeUrls')
+}
+
+export const checkifTranscriptExists = (videoId) => {
+  db.read()
+  return db.chain.get('transcripts').find({videoId}).value();
 }
 
 export const addYoutubeUrl = async (url, videoId) => {
@@ -53,5 +57,3 @@ export const addTranscript = async (videoId, text) => {
     console.error('Error saving URL:', error);
   }
 };
-
-getYoutubeUrl('2023-08-17T19:06:20.634Z')
