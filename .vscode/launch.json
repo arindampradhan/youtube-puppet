@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+      {
+          "type": "node",
+          "request": "launch",
+          "name": "Debug Puppeteer",
+          "program": "${workspaceFolder}/src/youtubetranscript.js",
+          "env": {
+              "NODE_ENV": "development"
+          },
+          "outFiles": [
+              "${workspaceFolder}/**/*.js"
+          ],
+          "sourceMaps": true,
+          "runtimeExecutable": "npm",
+          "runtimeArgs": [
+              "run-script",
+              "debug"
+          ],
+          "skipFiles": [
+              "${workspaceFolder}/node_modules/**/*.js",
+              "<node_internals>/**/*.js"
+          ]
+      }
+  ]
+}
